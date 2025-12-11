@@ -51,11 +51,13 @@ public class SeatsControllerTests
     public void ReserveSeat_SeatMaximum()
     {
         seatsServiceMock.Setup(s=>s.ReserveSeat(It.IsAny<string>(), It.IsAny<int>())).Throws(new SeatOutOfBoundsException());
-      
-        var actionresult = seatsControllerMock.Object.ReserveSeat(101);
+
+        var seatNumber = 1;
+        var actionresult = seatsControllerMock.Object.ReserveSeat(seatNumber);
         var result = actionresult.Result as NotFoundObjectResult;
         Assert.IsNotNull(result);
-   
+        Assert.AreEqual("Could not find " + seatNumber, result.Value);
+
     }
 
     [TestMethod]
